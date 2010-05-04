@@ -1,0 +1,71 @@
+h1. description
+
+autoaptitude are some scripts for manage installed packages via aptitude.
+
+
+h2. install
+
+You can get autoaptitude in differend ways:
+
+h3. git clone
+
+pre. ~$ mkdir bin
+~$ cd bin
+~/bin$ git clone git://github.com/jedie/autoaptitude.git
+~/bin$ cd autoaptitude
+
+h3. svn checkout
+
+If you didn't have git installed, but subversion, use github SVN gateway:
+
+pre. ~$ mkdir bin
+~$ cd bin
+~/bin$ svn checkout http://svn.github.com/jedie/autoaptitude.git
+~/bin$ cd autoaptitude
+
+h3. download with wget
+
+If you didn't have git or subversion, you can use wget:
+
+pre. ~$ mkdir bin
+~$ cd bin
+~/bin$ wget http://github.com/jedie/autoaptitude/zipball/master
+~/bin$ unzip jedie-autoaptitude-XXXXXXX.zip
+~/bin$ rm jedie-autoaptitude-XXXXXXX.zip
+~/bin$ mv jedie-autoaptitude-XXXXXXX autoaptitude
+
+--You must change XXXXXXX to the current git hash value ;)--
+
+
+h2. usage
+
+h3. create packagelist.txt
+
+pre. ~$ cd bin/autoaptitude
+~/bin/autoaptitude$ ./create_packagelist.py
+
+A new **packagelist.txt** file would be created.
+
+After this, you can edit the **packagelist.txt**.
+e.g. remove all packages you didn't need.
+
+h3. apply packagelist.txt
+
+To cleanup you system, apply the packageslist.txt with:
+
+pre. ~/bin/autoaptitude$ sudo ./autoaptitude.sh
+
+This script call aptitude two times.
+You must confirm before your system will be changed.
+ 
+It's a good idea to update the packages list with **aptitude update** before!
+
+
+h2. links
+
+The scripts based on: http://ubuntuforums.org/showthread.php?t=442974
+
+* github project page: http://github.com/jedie/autoaptitude/
+* german info: http://jensdiemer.de/permalink/177/ubuntu-mit-autoaptitude-aufraumen (de)
+
+
