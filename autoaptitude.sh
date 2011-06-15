@@ -25,7 +25,7 @@ info "keep all packages"
 verbose_eval aptitude keep-all
 
 info "Mark all installed packages as 'Automatically installed'"
-verbose_eval aptitude markauto ~i --schedule-only
+verbose_eval aptitude --schedule-only markauto ~i -o Aptitude::Delete-Unused=false
 
 info "revert with: 'sudo aptitude keep-all' - aboard with Strg-C"
 
