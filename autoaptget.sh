@@ -12,6 +12,10 @@ function verbose_eval {
     eval $*
 }
 
+
+info "FIXME: This script doesn't work as expected! No package would be autoremoved :( Use autoaptitude.sh!"
+
+
 if [ $(whoami) != 'root' ]; then
     info "Error: You must start this script with sudo!"
     exit
