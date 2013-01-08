@@ -32,5 +32,5 @@ info "revert with: 'sudo aptitude keep-all' - aboard with Strg-C"
 # About package priority, see:
 # http://www.debian.org/doc/FAQ/ch-pkg_basics.en.html#s-priority
 
-info "Remove unnecessary packages, except 'essential packages' and all packages from 'packagelist.txt'"
+info "Remove unnecessary packages, except all from 'packagelist.txt'"
 verbose_eval aptitude install -R `cat packagelist.txt | grep -v '^#' | tr '\n' ' '`
