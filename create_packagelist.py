@@ -23,6 +23,7 @@ import re
 import subprocess
 import sys
 import time
+import tempfile
 
 
 # VERBOSE = 0
@@ -31,7 +32,7 @@ VERBOSE = 1
 # VERBOSE = 3
 
 APTITUDE = "/usr/bin/aptitude"
-ENVIRON = {"LC_LANG":"C"}  # Alles auf englisch ausgeben
+ENVIRON = {"LC_LANG":"C"} # Alles auf englisch ausgeben
 
 # ~ subprocess.Popen(
     # ~ [APTITUDE, "--help"],
@@ -39,12 +40,12 @@ ENVIRON = {"LC_LANG":"C"}  # Alles auf englisch ausgeben
 # ~ )
 # ~ sys.exit()
 
-
-TEMP_FILENAME = "packagelist.tmp"
-PACKAGE_FILE = "packagelist_%s_%s.txt" % (
+temp_file = tempfile.NamedTemporaryFile(prefix="packagelist_", suffix=".txt")
+TEMP_FILENAME = temp_file.name
+PACKAGE_FILE = os.path.abspath("packagelist_%s_%s.txt" % (
     os.uname()[1],
     datetime.datetime.now().strftime("%Y%m%d"),
-)
+))
 SAVE_APTITUDE = "show ~i >%s" % TEMP_FILENAME
 
 PACKAGE_NAME_PREFIX = "Package: "
@@ -98,7 +99,7 @@ def clean_depends(raw_depends):
     """
     >>> clean_depends("libc6 (>= 2.4), xorg-video-abi-13, xserver-xorg-core (>= 2:1.12.99.901), ")
     ['libc6', 'xorg-video-abi-13', 'xserver-xorg-core']
-    
+
     >>> clean_depends("openjade | openjade1.3 | jade, docbook (>= 3.1) | docbook-xml,")
     ['openjade | openjade1.3 | jade', 'docbook | docbook-xml']
     """
@@ -128,8 +129,8 @@ def get_automark_data(f):
         if VERBOSE > 3:
             print ">>>", line
 
-        if in_depends:  # multiline depends
-            if ": " in line:  # next list item -> depends list end
+        if in_depends: # multiline depends
+            if ": " in line: # next list item -> depends list end
                 in_depends = False
                 if VERBOSE > 3:
                     print "raw_depends:", raw_depends
@@ -171,7 +172,7 @@ def get_automark_data(f):
                     temp_pkg_data[key] = value
                     break
 
-    add(temp_pkg_data)  # Add last packages
+    add(temp_pkg_data) # Add last packages
     return package_data
 
 
@@ -304,11 +305,7 @@ if __name__ == "__main__":
     print doctest.testmod()
 #     sys.exit()
 
-#     os.remove(TEMP_FILENAME)
-    if os.path.isfile(TEMP_FILENAME):
-        print "Skip aptitude show, use file %s" % TEMP_FILENAME
-    else:
-        create_temp_file()
+    create_temp_file()
 
     # ~ sys.exit()
     print "-"*79
